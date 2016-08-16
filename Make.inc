@@ -340,6 +340,11 @@ endif
 
 STDLIBCPP_FLAG :=
 
+ifeq ($(OS), FreeBSD)
+USEGCC := 0
+USECLANG := 1
+endif
+
 ifeq ($(OS), Darwin)
 DARWINVER := $(shell uname -r | cut -b 1-2)
 DARWINVER_GTE13 := $(shell expr `uname -r | cut -b 1-2` \>= 13)
@@ -888,6 +893,7 @@ endif
 ifeq ($(OS), FreeBSD)
 JLDFLAGS := -Wl,-Bdynamic
 OSLIBS += -lelf -lkvm -lrt -Wl,--export-dynamic -Wl,--version-script=$(JULIAHOME)/src/julia.expmap $(NO_WHOLE_ARCHIVE) $(LIBUNWIND)
+USE_SYSTEM_CURL := 1
 endif
 
 ifeq ($(OS), Darwin)
